@@ -1,5 +1,6 @@
 <?php
 
+namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,16 +18,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/country', function () {
+Route::get('/home', function () {
     return view('country/index');
 });
 
-// Route::get('/country/create', function () {
-//     return view('country/create');
-// });
+//group route with prefix "admin"
+Route::prefix('admin')->group(function () {
 
-// Route::get('/country/edit', function () {
-//     return view('country/edit');
-// });
+    //group route with middleware "auth"
+    Route::group(['middleware' => 'auth'], function() {
+        
+        //route dashboard
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard.index');
+    });
+});
 
 
